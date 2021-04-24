@@ -1,0 +1,11 @@
+Start and stop the MongoDB Database:
+sudo service mongod start
+sudo service mongod stop
+
+
+Show all databases:
+show dbs
+
+
+Create a database, say, testdb; Switch to the database:
+use testdb
