@@ -1,0 +1,47 @@
+Let's start by using customers entity:
+{
+  "id": "1",
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "phoneNumber": "555-555-1212",
+  "city": "Beverly Hills",
+  "state: "CA",
+  "zip": 90210
+  "email": "Jane.Doe@compose.io"
+}
+
+
+Customers collection contains any number of customers, each with a similar data format.
+To begin an aggregation on the customers collection, we call the aggregate function on the customers collection:
+
+> db.customers.aggregate([ ... aggregation steps go here ...]);
+
+
+Matching Documents
+The first stage of the pipeline is matching, and that allows us to filter out documents so that we're only manipulating the documents we care about. 
+The matching expression looks and acts much like the MongoDB find function or a SQL WHERE clause.
+To find all users that live in Beverly Hills (or more specifically, the 90210 area code), we'll add a match stage to our aggregation pipeline:
+
+> db.customers.aggregate([ 
+  { $match: { "zip": 90210 }}
+]);
+
+
+Grouping Documents
+Once we've filtered out the documents we don't want, we can start grouping together the ones that we do into useful subsets. 
+We can also use groups to perform operations across a common field in all documents, such as calculating the sum of a set of transactions and counting documents.44
+
+> db.customers.aggregate([ 
+  { $match: {"zip": "90210"}}, 
+  { 
+    $group: {
+      _id: null, 
+      count: {
+        $sum: 1
+      }
+    }
+  }
+]);
+
+
+
